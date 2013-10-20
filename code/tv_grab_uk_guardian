@@ -6,7 +6,7 @@
 #
 # 
 
-my $_version 	= '$Id: tv_grab_uk_guardian,v 1.010 2013/03/18 09:45:00 honir Exp $';
+my $_version 	= '$Id: tv_grab_uk_guardian,v 1.4 2013/10/20 17:13:35 bilbo_uk Exp $';
 
 
 eval 'exec /usr/bin/perl -w -S $0 ${1+"$@"}'
@@ -421,7 +421,7 @@ sub loadmapconf {
 		my $mapchannels = \%mapchannelhash;
 		my $mapcategories = \%mapcategoryhash;
 		#		
-		my $fn = get_default_confdir() . "/supplement/$GRABBER_NAME/$GRABBER_NAME.map.conf";
+		my $fn = get_supplement_dir() . '/'. $GRABBER_NAME . '.map.conf';
 		my $fhok = open my $fh, '<', $fn or warning("Cannot open conf file $fn");
 		if ($fhok) {
 			while (my $line = <$fh>) { 
@@ -555,8 +555,9 @@ sub get_default_dir {
     return $home;
 }
 
-sub get_default_confdir {
-    return get_default_dir() . "/.xmltv";
+sub get_supplement_dir {
+		return $ENV{XMLTV_SUPPLEMENT} . "/" . $GRABBER_NAME  if defined( $ENV{XMLTV_SUPPLEMENT} );
+    return get_default_dir() . "/.xmltv/supplement/" . $GRABBER_NAME;
 }
 
 sub get_default_cachedir {
